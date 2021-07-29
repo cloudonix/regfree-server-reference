@@ -1,0 +1,2265 @@
+openapi: 3.0.3
+info:
+  title: Cloudonix API.Core
+  version: '1.0'
+  summary: Cloudonix REST API
+  description: ''
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+servers:
+  - url: 'https://api.cloudonix.io'
+    description: Cloudonix Production Services
+  - url: 'http://api.staging.cloudonix.io'
+    description: Cloudonix Testing Environment
+paths:
+  /tenants:
+    parameters: []
+    get:
+      operationId: get-tenants
+      summary: List Tenants
+      description: Retrieve the list of all tenants. This is a system administrator priviliged operation.
+      tags:
+        - Tenants
+      responses:
+        '200':
+          description: Tenant List
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tenant'
+    post:
+      operationId: post-tenants
+      summary: Create Tenant
+      description: Create Tenant
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                profile:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          headers: {}
+  '/tenants/{tenant-name}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name
+      summary: Get Tenant
+      description: Retrieve Tenant
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+    patch:
+      operationId: patch-tenants-tenant-name
+      summary: Update Tenant
+      description: Update Tenant
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                profile:
+                  type: object
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name
+      summary: Delete Tenant
+      description: Delete Tenant
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/keys':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-keys
+      summary: Get Tenant Keys
+      description: List Tenant Keys
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Key'
+    post:
+      operationId: post-tenants-tenant-name-keys
+      summary: Create Tenant Key
+      description: Create Tenant Key
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/keys/{key-id}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: key-id
+        in: path
+        required: true
+        description: the API key ID
+    get:
+      operationId: get-tenants-tenant-name-keys-key-id
+      summary: Get Tenant Key
+      description: Retrieve Tenant Key
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Key'
+    patch:
+      operationId: patch-tenants-tenant-name-keys-key-id
+      summary: Update Tenant Key
+      description: Update Tenant Key
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                active:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name-keys-key-id
+      summary: Delete Tenant Key
+      description: Delete Tenant Key
+      responses:
+        '200':
+          description: OK
+  '/domains/{domain}/keys':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-domains-domain-name-keys
+      summary: Get Domain Keys
+      description: Retrieve Domain Keys
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Key'
+    post:
+      operationId: post-domains-domain-name-keys
+      summary: Create Domain Key
+      description: Create Domain Key
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  '/domains/{domain}/keys/{key-id}':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: key-id
+        in: path
+        required: true
+        description: the API key ID
+    get:
+      operationId: get-domains-domain-name-keys-key-id
+      summary: Get Domain Key
+      description: Retrieve Domain Key
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+    patch:
+      operationId: patch-domains-domain-name-keys-key-id
+      summary: Update Domain Key
+      description: Update Domain Key
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                active:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-domains-domain-name-keys-key-id
+      summary: Delete Domain Key
+      description: Delete Domain Key
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/users':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-users
+      summary: Get Tenant Users
+      description: List Tenant Users
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      operationId: post-tenants-tenant-name-users
+      summary: Create Tenant User
+      description: Create Tenant User
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/users/{email}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: email
+        in: path
+        required: true
+        description: administrator's email
+    get:
+      operationId: get-tenants-tenant-name-users-email
+      summary: Get Tenant User
+      description: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      operationId: delete-tenants-tenant-name-users-email
+      summary: Delete Tenant User
+      description: ''
+      responses:
+        '200':
+          description: OK
+  '/domains/{domain}/users':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-domains-domain-name-users
+      summary: Get Domain Users
+      description: List Domain Users
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      operationId: post-domains-domain-name-users
+      summary: Create Domain User
+      description: Create Domain User
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  '/domains/{domain}/users/{email}':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: email
+        in: path
+        required: true
+        description: administrator's email
+    get:
+      operationId: get-domains-domain-name-users-email
+      summary: Get Domain User
+      description: Retrieve Domain User
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      operationId: delete-domains-domain-name-users-email
+      summary: Delete Domain User
+      description: Delete Domain User
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/applications':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-applications
+      summary: Get Tenant Applications
+      description: List Tenant Apps
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hosted-Application'
+    post:
+      operationId: post-tenants-tenant-name-applications
+      summary: Create Tenant Application
+      description: Create Tenant App
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/applications/{application-name}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: application-name
+        in: path
+        required: true
+        description: container application's name
+    get:
+      operationId: get-tenants-tenant-name-applications-application-name
+      summary: Get Tenant Application
+      description: Retrieve Tenant App
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hosted-Application'
+    delete:
+      operationId: delete-tenants-tenant-name-applications-application-name
+      summary: Delete Tenant Application
+      description: Delete Tenant App
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/applications/{application-name}/blocks':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: application-name
+        in: path
+        required: true
+        description: contianer application's name
+    get:
+      operationId: get-tenants-tenant-name-applications-application-name-blocks
+      summary: Get Blocks
+      description: List Tenant Blocks
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Block'
+    post:
+      operationId: post-tenants-tenant-name-applications-application-name-blocks
+      summary: Create Block
+      description: Create Tenant Block
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/applications/{application-name}/blocks/{block}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: application-name
+        in: path
+        required: true
+        description: contianer application's name
+      - schema:
+          type: string
+        name: block
+        in: path
+        required: true
+        description: application's block
+    get:
+      operationId: get-tenants-tenant-name-applications-application-name-blocks-block
+      summary: Get Block
+      description: Retrieve Tenant Block
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+    patch:
+      operationId: patch-tenants-tenant-name-applications-application-name-blocks-block
+      summary: Update Block
+      description: Update Tenant Block
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                runtime:
+                  type: string
+                code:
+                  type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name-applications-application-name-blocks-block
+      summary: Delete Block
+      description: Delete Tenant Block
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-domains
+      summary: Get Domains
+      description: List Tenant Domains
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Domain'
+    post:
+      operationId: post-tenants-tenant-name-domains
+      summary: Create Domain
+      description: Create Tenant Domain
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+                profile:
+                  type: object
+                application:
+                  type:
+                    - object
+                    - string
+                    - number
+                  properties:
+                    name:
+                      type: string
+                    profile:
+                      type: string
+                    type:
+                      type: string
+                    url:
+                      type: string
+                    method:
+                      type: string
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-domains-domain
+      summary: Get Domain
+      description: Retrieve Tenant Domain
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+    patch:
+      operationId: patch-tenants-tenant-name-domains-domain
+      summary: Update Domain
+      description: Update Teant Domain
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                profile:
+                  type: object
+                active:
+                  type: boolean
+                application:
+                  type:
+                    - object
+                    - string
+                    - number
+                  properties:
+                    name:
+                      type: string
+                    profile:
+                      type: string
+                    type:
+                      type: string
+                    url:
+                      type: string
+                    method:
+                      type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name-domains-domain
+      summary: Delete Domain
+      description: Delete Tenant Domain
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/trunks':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-trunks
+      summary: Get Domain Trunks
+      description: List Tenant Domain Trunks
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trunk'
+    post:
+      operationId: post-tenants-tenant-name-domains-domain-trunks
+      summary: Create Domain Trunk
+      description: Create Tenant Domain Trunk
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                ip:
+                  type: string
+                port:
+                  type: number
+                transport:
+                  type: string
+                prefix:
+                  type: string
+                direction:
+                  type: string
+                profile:
+                  type: object
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/trunks/{trunk-name}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: trunk-name
+        in: path
+        required: true
+        description: domain's trunk
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-trunks-trunk-name
+      summary: Get Domain Trunk
+      description: Retrieve Tenant Domain Trunk
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trunk'
+    patch:
+      operationId: patch-tenants-tenant-name-domains-domain-trunks-trunk-name
+      summary: Update Domain Trunk
+      description: Update Tenant Domain Trunk
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                ip:
+                  type: string
+                port:
+                  type: number
+                transport:
+                  type: string
+                prefix:
+                  type: string
+                direction:
+                  type: string
+                profile:
+                  type: object
+                active:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name-domains-domain-trunks-trunk-name
+      summary: Delete Domain Trunk
+      description: Delete Tenant Domain Trunk
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/trunks':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-trunks
+      summary: Get Tenant Trunks
+      description: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trunk'
+    post:
+      operationId: post-tenants-tenant-name-trunks
+      summary: Create Tenant Trunk
+      description: ''
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                ip:
+                  type: string
+                port:
+                  type: number
+                transport:
+                  type: string
+                prefix:
+                  type: string
+                direction:
+                  type: string
+                profile:
+                  type: object
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/trunks/{trunk-name}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: trunk-name
+        in: path
+        required: true
+        description: domain's trunk
+    get:
+      operationId: get-tenants-tenant-name-trunks-trunk-name
+      summary: Get Tenant Trunk
+      description: ''
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trunk'
+    patch:
+      operationId: patch-tenants-tenant-name-trunks-trunk-name
+      summary: Update Tenant Trunk
+      description: ''
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                ip:
+                  type: string
+                port:
+                  type: number
+                transport:
+                  type: string
+                prefix:
+                  type: string
+                direction:
+                  type: string
+                profile:
+                  type: object
+                active:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name-trunks-trunk-name
+      summary: Delete Tenant Trunk
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/aliases':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-aliases
+      summary: Get Domain Aliases
+      description: List Tenant Aliases
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alias'
+    post:
+      operationId: post-tenants-tenant-name-domains-domain-aliases
+      summary: Create Domain Alias
+      description: Create Tenant Alias
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                alias:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/aliases/{alias}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: alias
+        in: path
+        required: true
+        description: domain's alias (internet style domain)
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-aliases-alias
+      summary: Get Domain Alias
+      description: Retrieve Tenant Alias
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alias'
+    delete:
+      operationId: delete-tenants-tenant-name-domains-domain-aliases-alias
+      summary: Delete Domain Alias
+      description: Delete Alias
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/subscribers':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-subscribers
+      summary: Get Domain Subscribers
+      description: List Tenant Subscribers
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscriber'
+    post:
+      operationId: post-tenants-tenant-name-domains-domain-subscribers
+      summary: Create Domain Subscriber
+      description: Create Tenant Subscriber
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                msisdn:
+                  type: string
+                profile:
+                  type: string
+                sip-password:
+                  type: string
+          application/xml:
+            schema:
+              type: object
+              properties:
+                msisdn:
+                  type: string
+                profile:
+                  type: object
+                sip-password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/subscribers/{msisdn}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: msisdn
+        in: path
+        required: true
+        description: subscriber's identifier (msisdn or uuid)
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-subscribers-msisdn
+      summary: Get Domain Subscriber
+      description: Retrieve Tenant Subscriber
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscriber'
+    patch:
+      operationId: patch-tenants-tenant-name-domains-domain-subscribers-msisdn
+      summary: Update Domain Subscriber
+      description: Update Tenant Subscriber
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                msisdn:
+                  type: string
+                profile:
+                  type: object
+                active:
+                  type: boolean
+                sip-password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name-domains-domain-subscribers-msisdn
+      summary: Delete Domain Subscriber
+      description: Delete Tenant Subscriber
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/applications':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-applications
+      summary: Get Domain Applications
+      description: List Tenant Apps
+      tags: []
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: post-tenants-tenant-name-domains-domain-applications
+      summary: Create Domain Application
+      description: Create Tenant App
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                profile:
+                  type: object
+                type:
+                  type: string
+                url:
+                  type: string
+                method:
+                  type: string
+                status-start-ringing:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/applications/{application-name}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: application-name
+        in: path
+        required: true
+        description: application connection's name
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-applications-application-name
+      description: Retrieve Tenant App
+      summary: Get Domain Application
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voice-Application'
+    patch:
+      operationId: patch-tenants-tenant-name-domains-domain-applications-application-name
+      summary: Update Domain Application
+      description: Update Tenant App
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                profile:
+                  type: object
+                type:
+                  type: string
+                url:
+                  type: string
+                method:
+                  type: string
+                active:
+                  type: boolean
+                status-start-ringing:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name-domains-domain-applications-application-name
+      summary: Delete Domain Application
+      description: Delete Tenant App
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/applications/{application-name}/subscribers/{msisdn}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: application-name
+        in: path
+        required: true
+        description: application connection's name
+      - schema:
+          type: string
+        name: msisdn
+        in: path
+        required: true
+        description: subscriber's identifier (msisdn or uuid)
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-applications-application-name-subscribers-subscriber-msisdn
+      summary: Get Application Subscribers
+      description: Retrieve subscriber msisdn
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voice-Application-Subscriber-Data'
+    patch:
+      summary: Update Application Subscriber
+      operationId: patch-tenants-tenant-name-domains-domain-applications-application-name-subscribers-subscriber-msisdn
+      description: Update subscriber msisdn
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name-domains-domain-applications-application-name-subscribers-subscriber-msisdn
+      summary: Delete Application Subscriber
+      description: Delete subscriber msisdn
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/applications/{application-name}/dnids':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: application-name
+        in: path
+        required: true
+        description: application connection's name
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-applications-application-name-dnids
+      summary: Get Application dnids
+      description: List App dnids
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DNID'
+    post:
+      operationId: post-tenants-tenant-name-domains-domain-applications-application-name-dnids
+      summary: Create Application dnid
+      description: Create App dnid
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                voice-application:
+                  type:
+                    - string
+                    - number
+                dnid:
+                  type: string
+                source:
+                  type: string
+                prefix:
+                  type: boolean
+                expression:
+                  type: boolean
+                asteriskCompatible:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/applications/{application-name}/dnids/{dnid}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: application-name
+        in: path
+        required: true
+        description: application connection's name
+      - schema:
+          type: string
+        name: dnid
+        in: path
+        required: true
+        description: applicaiton's dnid
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-applications-application-name-dnids-dnid
+      summary: Get Application dnid
+      description: Retrieve App dnid
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DNID'
+    patch:
+      operationId: patch-tenants-tenant-name-domains-domain-applications-application-name-dnids-dnid
+      summary: Update Application dnid
+      description: Update App dnid
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                voice-application:
+                  type:
+                    - string
+                    - number
+                active:
+                  type: boolean
+                dnid:
+                  type: string
+                prefix:
+                  type: boolean
+                expression:
+                  type: boolean
+                asteriskCompatible:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name-domains-domain-applications-application-name-dnids-dnid
+      summary: Delete Application dnid
+      description: Delete App dnid
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/dnids':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-dnids
+      summary: Get Domain dnids
+      description: List Tenant dnids
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DNID'
+    post:
+      operationId: post-tenants-tenant-name-domains-domain-dnids
+      summary: Create Domain dnid
+      description: Create Tenant dnids
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                voice-application:
+                  type:
+                    - string
+                    - number
+                dnid:
+                  type: string
+                source:
+                  type: string
+                prefix:
+                  type: boolean
+                expression:
+                  type: boolean
+                asteriskCompatible:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+  '/tenants/{tenant-name}/domains/{domain}/dnids/{dnid}':
+    parameters:
+      - schema:
+          type: string
+        name: tenant-name
+        in: path
+        required: true
+        description: your tenant account's name or the word 'self'
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: dnid
+        in: path
+        required: true
+        description: applicaiton's dnid
+    get:
+      operationId: get-tenants-tenant-name-domains-domain-dnids-dnid
+      summary: Get Domain dnid
+      description: Retrieve Tenant dnid
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DNID'
+    patch:
+      operationId: patch-tenants-tenant-name-domains-domain-dnids-dnid
+      summary: Update Domain dnid
+      description: Update Tenant dnid
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                voice-application:
+                  type:
+                    - string
+                    - number
+                active:
+                  type: boolean
+                dnid:
+                  type: string
+                prefix:
+                  type: boolean
+                expression:
+                  type: boolean
+                asteriskCompatible:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-tenants-tenant-name-domains-domain-dnids-dnid
+      summary: Delete Domain dnid
+      description: Delete Tenant dnid
+      responses:
+        '200':
+          description: OK
+  '/calls/{domain}/sessions':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-calls-domain-sessions
+      summary: Get Sessions
+      description: List sessions
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Session'
+    post:
+      operationId: post-calls-domain-sessions
+      summary: Create Session
+      description: Create session
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                destination:
+                  type: string
+                callerId:
+                  type: string
+                timeLimit:
+                  type: number
+                profile:
+                  type: object
+                callback:
+                  type: string
+                routes:
+                  type: object
+      responses:
+        '200':
+          description: OK
+  '/calls/{domain}/sessions/{token}':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: token
+        in: path
+        required: true
+        description: session's token
+    get:
+      operationId: get-calls-domain-sessions-token
+      summary: Get Session
+      description: Retrieve session
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+    patch:
+      operationId: patch-calls-domain-sessions-token
+      summary: Update Session
+      description: Update session
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                profile:
+                  type: object
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-calls-domain-sessions-token
+      summary: Delete Session
+      description: Delete session
+      responses:
+        '200':
+          description: OK
+  '/calls/{domain}/incoming':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-calls-domain-incoming
+      summary: Get Incoming Calls
+      description: List incoming calls
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Session'
+    post:
+      operationId: post-calls-domain-incoming
+      summary: Create Incoming Call
+      description: Create incoming call
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                destination:
+                  type: string
+                callerId:
+                  type: string
+                timeLimit:
+                  type: string
+                profile:
+                  type: object
+                callback:
+                  type: string
+                routes:
+                  type: object
+      responses:
+        '200':
+          description: OK
+  '/calls/{domain}/incoming/{token}':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: token
+        in: path
+        required: true
+        description: session's token
+    get:
+      operationId: get-calls-domain-incoming-token
+      summary: Get Incoming Call
+      description: Retrieve incoming call
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+    patch:
+      operationId: patch-calls-domain-incoming-token
+      summary: Update Incoming Call
+      description: Update incoming call
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                profile:
+                  type: object
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-calls-domain-incoming-token
+      summary: Delete Incoming Call
+      description: Delete incoming call
+      responses:
+        '200':
+          description: OK
+  '/calls/{domain}/outgoing/{subscriber-msisdn}':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: subscriber-msisdn
+        in: path
+        required: true
+        description: your subscriber msisdn
+    post:
+      operationId: post-calls-domain-outgoing
+      summary: Create Outgoing Call
+      description: Create outgoing call
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              title: 'Outgoing Call'
+              type: object
+              properties:
+                destination:
+                  type: string
+                callerId:
+                  type: string
+                timeLimit:
+                  type: number
+                profle:
+                  type: object
+                callback:
+                  type: string
+                routes:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          content: 
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/Session'
+  '/calls/{domain}/outgoing/{token}':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: token
+        in: path
+        required: true
+        description: session's token
+    get:
+      operationId: get-calls-domain-outgoing-token
+      summary: Get Outgoing Call
+      description: Retrieve outgoing call
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+    patch:
+      operationId: patch-calls-domain-outgoing-token
+      summary: Update Outgoing Call
+      description: Update outgoing call
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                profile:
+                  type: object
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-calls-domain-outgoing-token
+      summary: Delete Outgoing Call
+      description: Delete outgoing call
+      responses:
+        '200':
+          description: OK
+  '/calls/{domain}/application':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-calls-domain-application
+      summary: Get Call Applications
+      description: List Apps
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+    post:
+      operationId: post-calls-domain-application
+      summary: Create Call Application
+      description: Create App
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                destination:
+                  type: string
+                callerId:
+                  type: string
+                timeLimit:
+                  type: number
+                profile:
+                  type: object
+                callback:
+                  type: string
+                routes:
+                  type: object
+      responses:
+        '200':
+          description: OK
+  '/calls/{domain}/application/{token}':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: token
+        in: path
+        required: true
+        description: session's token
+    get:
+      operationId: get-calls-domain-application-token
+      summary: Get Call Application
+      description: Retrieve App
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+    patch:
+      operationId: patch-calls-domain-application-token
+      summary: Update Call Application
+      description: Update App
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                profile:
+                  type: object
+      responses:
+        '200':
+          description: OK
+    delete:
+      operationId: delete-calls-domain-application-token
+      summary: Delete Call Application
+      description: Delete App
+      responses:
+        '200':
+          description: OK
+  '/calls/{domain}/conferences':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+    get:
+      operationId: get-calls-domain-converences
+      summary: Get Call Conferences
+      description: List converences
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Conference'
+  '/calls/{domain}/conferences/{name}':
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+        description: your domain name or the word 'self'
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+        description: conference name as defined in CXML
+    get:
+      operationId: get-calls-domain-converences-name
+      summary: Get Call Conference
+      description: Retrieve converence
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conference'
+    delete:
+      operationId: delete-calls-domain-converences-name
+      summary: Delete Call Conference
+      description: Delete converence
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Tenant:
+      title: Tenant
+      type: object
+      properties:
+        name:
+          type: string
+        profile:
+          type: object
+    Hosted-Application:
+      title: Hosted-Application
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        blocks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Block'
+    Block:
+      title: Block
+      type: object
+      properties:
+        name:
+          type: string
+        runtime:
+          type: string
+        code:
+          type: string
+        tenantId:
+          type: number
+        application:
+          type: string
+        url:
+          type: string
+    Domain:
+      title: Domain
+      type: object
+      properties:
+        tenantId:
+          type: number
+        domain:
+          type: string
+        profile:
+          type: object
+        active:
+          type: boolean
+        application:
+          type: object
+        aliases:
+          type: array
+          items:
+            type: object
+    Alias:
+      title: Alias
+      type: object
+      properties:
+        domainId:
+          type: number
+        alias:
+          type: string
+    Trunk:
+      title: Trunk
+      type: object
+      properties:
+        domainId:
+          type: number
+        name:
+          type: string
+        ip:
+          type: string
+        port:
+          type: number
+        transport:
+          type: string
+        prefix:
+          type: string
+        direction:
+          type: string
+        profile:
+          type: object
+        active:
+          type: boolean
+        metric:
+          type: number
+    Subscriber:
+      title: Subscriber
+      type: object
+      properties:
+        domainId:
+          type: number
+        msisdn:
+          type: string
+        profile:
+          type: object
+        active:
+          type: boolean
+        sip-password:
+          type: string
+    Voice-Application:
+      title: Voice-Application
+      type: object
+      properties:
+        domain:
+          $ref: '#/components/schemas/Domain'
+        name:
+          type: string
+        profile:
+          type: object
+        type:
+          type: string
+        url:
+          type: string
+        method:
+          type: string
+        active:
+          type: boolean
+    DNID:
+      title: DNID
+      type: object
+      properties:
+        domain:
+          $ref: '#/components/schemas/Domain'
+        voice-application:
+          $ref: '#/components/schemas/Voice-Application'
+        messaging-application:
+          type: object
+        source:
+          type: string
+        prefix:
+          type: boolean
+        expression:
+          type: boolean
+        asteriskCompatible:
+          type: boolean
+    Voice-Application-Subscriber-Data:
+      title: Voice-Application-Subscriber-Data
+      type: object
+      properties:
+        application:
+          $ref: '#/components/schemas/Voice-Application'
+        subscriber:
+          $ref: '#/components/schemas/Subscriber'
+        key:
+          type: string
+        data:
+          type: string
+        createdTime:
+          type: string
+        modifiedTime:
+          type: string
+    Session:
+      title: Session
+      type: object
+      properties:
+        domainId:
+          type: number
+        domain:
+          type: string
+        subscriberId:
+          type: number
+        destination:
+          type: string
+        callerId:
+          type: string
+        direction:
+          type: string
+        token:
+          type: string
+        timeLimit:
+          type: number
+        profile:
+          type: object
+        callStatTime:
+          type: number
+        callAnswerTome:
+          type: number
+        callEndTime:
+          type: number
+        callback:
+          type: string
+        routes:
+          type: object
+        status:
+          type: string
+        error:
+          type: string
+    Conference:
+      title: Conference
+      type: object
+      properties:
+        name:
+          type: string
+        members:
+          type: number
+        tenantId:
+          type: number
+        domain:
+          type: string
+    User:
+      title: User
+      type: object
+      properties:
+        tenantId:
+          type: number
+        domainId:
+          type: number
+        email:
+          type: string
+        authProvider:
+          type: string
+    Key:
+      title: Key
+      type: object
+      properties:
+        tenant:
+          $ref: '#/components/schemas/Tenant'
+        domain:
+          $ref: '#/components/schemas/Domain'
+        application:
+          $ref: '#/components/schemas/Voice-Application'
+        subscriber:
+          $ref: '#/components/schemas/Subscriber'
+        user:
+          $ref: '#/components/schemas/User'
+        active:
+          type: boolean
+        name:
+          type: string
+        keyId:
+          type: string
+        secret:
+          type: string
+        type:
+          type: string
+  securitySchemes:
+    API-Key:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: The API is used to authorize requests to the API.Core REST API. API key use is audited and it is recommended to use the per-application API keys that can be easily created through the [Cloudonix Cockpit](https://cockpit.cloudonix.io).
+security:
+  - API-Key: []
